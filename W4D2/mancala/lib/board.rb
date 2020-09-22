@@ -12,7 +12,7 @@ class Board
     # helper method to #initialize every non-store cup with four stones each
 
     @cups.each_with_index do |cup, idx|
-      if idx != 6 || idx != 13 
+      if idx != 6 && idx != 13 
         4.times { cup << :stone } 
       end
     end
@@ -29,7 +29,8 @@ class Board
       
     current_pos = start_pos
     until start_cup.empty?
-      next_pos = (current_pos % 14) + 1
+      current_pos += 1
+      next_pos = (current_pos % 14)
       case next_pos
       when 6
         @cups[next_pos] << start_cup.shift if current_player_name == @player_1
@@ -45,10 +46,10 @@ class Board
 
   def next_turn(ending_cup_idx)
     # helper method to determine whether #make_move returns :switch, :prompt, or ending_cup_idx
-    if ending_cup_idx @cups[ending_cup_idx].length == 1
-      :switch 
-    elsif ending_cup_idx == 6 || ending_cup_idx == 13
+    if ending_cup_idx == 6 || ending_cup_idx == 13
       :prompt
+    elsif @cups[ending_cup_idx].count == 1
+      :switch 
     else
     ending_cup_idx
     end
@@ -63,17 +64,18 @@ class Board
   end
 
   def one_side_empty?
-    @cups[0..5].empty? || @cups[7..12].empty?
+    @cups[0..5].all? { |cup| cup.empty? } || 
+    @cups[7..12].all? { |cup| cup.empty? }
   end
 
   def winner
-    case @cups[6].counts <=> @cups[13].count
+    case @cups[6].count <=> @cups[13].count
     when -1
-      "#{@player_1} is the winner!"
+      @player_2
     when 0
-      "Game is tied"
+      :draw
     when 1
-      "#{@player_2} is the winner!"
+      @player_1
     end
   end
 end
