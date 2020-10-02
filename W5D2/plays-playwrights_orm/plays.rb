@@ -32,7 +32,7 @@ class Play
   end
 
   def self.find_by_playwright(name)
-    plays = PlayDBConnection.instance.execute(<<-SQL name)
+    plays = PlayDBConnection.instance.execute(<<-SQL, name)
     SELECT
       *
     FROM

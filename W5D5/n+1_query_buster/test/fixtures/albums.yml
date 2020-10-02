@@ -1,0 +1,22 @@
+# == Schema Information
+#
+# Table name: albums
+#
+#  id         :bigint           not null, primary key
+#  title      :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  artist_id  :integer
+#
+# Indexes
+#
+#  index_albums_on_artist_id  (artist_id)
+#
+
+one:
+  title: MyString
+  artist_id: 1
+
+two:
+  title: MyString
+  artist_id: 1
